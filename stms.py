@@ -21,11 +21,12 @@ class Math_thread_stdin(threading.Thread):
     def run(self):
         print("incoming connection {}_{}".format(self.add[0],self.add[1]))
         self.conn.sendall("Simple lightWight Math server :2024 version:0.1 \n Made by Sridharanitharan.B \n".encode())
+        #APPLICATION LAYER (7)
         bc_proc = Popen(['bc'],stdin = PIPE,stdout= PIPE,stderr = STDOUT)
         start_ = Math_thread_stdout(bc_proc,self.conn)
         start_.start()
         while bc_proc.poll() is None:
-            try:
+            try:#PRESENTATION LAYER(6)
                 data = self.conn.recv(1024)
                 if not data:
                     break
@@ -37,6 +38,7 @@ class Math_thread_stdin(threading.Thread):
                 pass
 HOST = ''
 PORT = 9090
+#SESSION LAYER(5)
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 server.bind((HOST,PORT))
