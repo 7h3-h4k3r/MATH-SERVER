@@ -1,17 +1,24 @@
 import socket 
 import threading 
-def msg(client):
-    data = client.recv(10*10240)
-    if data:
-        print("length of data {}".format(len(data)))
-        print(data.decode().strip())
+def msg(clint):
+    buffer=""
+    while True:
+        data = clint.recv(10*10240)
+        if data:
+            buffer+=data.decode()
+            if buffer.endswith("\n"):
+                print(buffer.strip())
+                buffer=""
     
 host ="127.0.0.1"
 port = 7070
-client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-client.connect((host,port))
+clint = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+clint.connect((host,port))
 while True:
-        th =threading.Thread(target= msg,args=(client,))
+        th =threading.Thread(target= msg,args=(clint,))
         th.start()
         message = input()
-        client.send(message.encode())
+        clint.send(message.encode())
+
+       
+
