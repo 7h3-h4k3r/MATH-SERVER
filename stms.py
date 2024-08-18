@@ -22,7 +22,7 @@ class Math_thread_stdin(threading.Thread):
     def run(self):
         try:
             print("incoming connection {}_{}".format(self.add[0],self.add[1]))
-            self.conn.sendall("Simple lightWight Math server :2024 version:0.1 \n Made by Sridharanitharan.B \n".encode())
+            self.conn.sendall("Simple lightWight Math server :2024 version:0.2 \n Made by Sridharanitharan.B \n".encode())
             #APPLICATION LAYER (7)
             bc_proc = Popen(['bc'],stdin = PIPE,stdout= PIPE,stderr = STDOUT)
             start_ = Math_thread_stdout(bc_proc,self.conn)
