@@ -2,7 +2,9 @@
 import socket
 from subprocess import PIPE ,STDOUT ,Popen
 import threading
+import re
 conn_count=[]
+pattern = r"([0-9]{1,4}[\+\-\*\^/][0-9]{1,4})|([a-z]\s*[\+\-\*\^\=/]\s*[0-9]{1,4})" #update is not end(add some update in feture)
 class Math_thread_stdout(threading.Thread):
     def __init__(self,proc,conn):
         threading.Thread.__init__(self)
@@ -28,16 +30,23 @@ class Math_thread_stdin(threading.Thread):
             start_ = Math_thread_stdout(bc_proc,self.conn)
             start_.start()
             while bc_proc.poll() is None:
+                warning = 1
                 try:#PRESENTATION LAYER(6)
                     data = self.conn.recv(1024)
                     if not data:
                         break
                     data = data.decode().strip()
-                    query =  data + '\n'
-                    bc_proc.stdin.write(query.encode())
-                    bc_proc.stdin.flush()
+                    #print(data) feture usage
+                    u_filter = re.match(pattern,data)
+                    if u_filter:
+                        query =  data + '\n'
+                        bc_proc.stdin.write(query.encode())
+                        bc_proc.stdin.flush()
+                    else:
+                        self.conn.send("(*) Invaild systax \n".encode())
                 except:
                     pass
+                    
         except:
             pass
 HOST = ''
