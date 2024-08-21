@@ -4,7 +4,8 @@ from subprocess import PIPE ,STDOUT ,Popen
 import threading
 import re
 conn_count=[]
-pattern = r"([0-9]{1,4}[\+\-\*\^/][0-9]{1,4})|([a-z]\s*[\+\-\*\^\=/]\s*[0-9]{1,4})" #update is not end(add some update in feture)
+# pattern = r"([0-9]{1,4}[\+\-\*\^/][0-9]{1,4})|([a-z]\s*[\+\-\*\^\=/]\s*[0-9]{1,4})" 
+pattern = r"([0-9]{1,4}\s*==\s*[0-9]{1,4})|([0-9]{1,4}\s*[\+\-\*\<\>\^\=/]\s*[0-9]{1,4})|([a-z]+\s*[\+\-\*\<\>\^\=/]\s*[0-9]{1,4})|([a-z]+\s*[\+\-\*\<\>\^\=/]\s*[a-z]+)|([a-z]+\s*==\s*[a-z]+)"# #update is not end(add some update in feture)
 class Math_thread_stdout(threading.Thread):
     def __init__(self,proc,conn):
         threading.Thread.__init__(self)
